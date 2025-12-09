@@ -22,6 +22,39 @@ The **SchemaLink** project is an advanced AI Agent designed to democratize acces
 
 -----
 
+That's a great idea\! Presenting the project's file structure early in the `README` helps developers and users quickly grasp the system's architecture and where key logic resides.
+
+Here is the finalized project tree structure and a template for the `README.md` that incorporates this structure along with key explanations.
+
+-----
+
+## 🏗️ SchemaLink Project Structure
+
+```
+SchemaLink/
+├── config/
+│   ├── settings.py           # ⚙️ Environment Variables (DB_URI, API Keys), Hyperparameters (TOKEN_BUDGET, RRF_K).
+│   └── prompts.py            # 📝 All LLM Prompt Templates (System, SQL Critic, Synthesis, Empty Result).
+├── core_logic/
+│   ├── __init__.py
+│   ├── data_models.py        # 🧱 Pydantic Models for Schema and Structured LLM Output (SQLGenerationTool).
+│   ├── gemini_client.py      # 🤖 **NEW:** Wrapper for Gemini API, handling structured output (Tool Call).
+│   ├── safe_connector.py     # 🛡️ Database Connector: Enforces READ-ONLY access, Statement Timeout, and Hard Stop Guardrail.
+│   ├── hybrid_retriever.py   # 🔍 Hybrid Search (Vector + Keyword) using RRF, enforces Token Budget optimization.
+│   ├── llm_agent.py          # 🧠 **Core Logic:** Orchestrates the Agentic Loop, Prompt Builder, and Self-Correction Retry Loop.
+│   └── synthesis_module.py   # 📊 Post-processing: PII Scrubbing Layer and final Grounding Constraint application.
+├── ingestion/
+│   ├── __init__.py
+│   ├── introspection.py      # 🗄️ Database Introspection Module: Extracts DDL, especially **Foreign Key (FK) Metadata**.
+│   ├── indexing.py           # 🏷️ Schema Indexer: Handles embedding (Vectorization Consistency) and loading into Vector/Keyword stores.
+│   └── auxiliary_llm.py      # 💬 (Optional) Module for adding business context to column names.
+├── .env                      # File to store sensitive configuration (DB_URI, API Keys).
+├── main.py                   # 🚀 Entry point for system initialization, ingestion, and running user queries.
+└── README.md                 # Project documentation and setup guide.
+```
+
+-----
+
 ## 🛠️ Technical Implementation Details
 
 ### 1\. Schema Ingestion Pipeline
